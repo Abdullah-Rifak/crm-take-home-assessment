@@ -6,9 +6,18 @@ import { UsersModule } from './users/users.module';
 import { LeadsModule } from './leads/leads.module';
 import { NotesModule } from './notes/notes.module';
 import { DashboardModule } from './dashboard/dashboard.module';
+import { MongooseModule } from '@nestjs/mongoose';
+
 
 @Module({
-  imports: [AuthModule, UsersModule, LeadsModule, NotesModule, DashboardModule],
+  imports: [
+    MongooseModule.forRoot('mongodb://localhost:27017/crm'),
+    AuthModule,
+    UsersModule,
+    LeadsModule,
+    NotesModule,
+    DashboardModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
