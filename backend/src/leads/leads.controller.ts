@@ -1,4 +1,13 @@
-import { Controller, Post, Get, Put, Delete, Body, Query, Param } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Get,
+  Put,
+  Delete,
+  Body,
+  Query,
+  Param,
+} from '@nestjs/common';
 import { LeadsService } from './leads.service';
 import { LeadDocument } from './lead.schema';
 
