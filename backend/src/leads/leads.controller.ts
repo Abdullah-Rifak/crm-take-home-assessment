@@ -7,10 +7,13 @@ import {
   Body,
   Query,
   Param,
+  UseGuards,
 } from '@nestjs/common';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { LeadsService } from './leads.service';
 import { LeadDocument } from './lead.schema';
 
+@UseGuards(JwtAuthGuard)
 @Controller('leads')
 export class LeadsController {
   constructor(private readonly leadsService: LeadsService) {}
