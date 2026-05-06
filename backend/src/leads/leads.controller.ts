@@ -24,7 +24,7 @@ export class LeadsController {
   }
 
   @Get()
-  findAll(@Query() query: Record<string, unknown>) {
+  findAll(@Query() query: any) {
     return this.leadsService.findAll(query);
   }
 
