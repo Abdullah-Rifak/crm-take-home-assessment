@@ -11,8 +11,6 @@ export default function Notes({ leadId }) {
     setNotes(res.data);
   }, [leadId]);
 
-  // calling fetchNotes here updates local state after async fetch
-   
   useEffect(() => {
     fetchNotes();
   }, [fetchNotes]);
@@ -30,23 +28,29 @@ export default function Notes({ leadId }) {
   };
 
   return (
-    <div style={{ border: "1px solid #aaa", padding: "10px", marginTop: "10px" }}>
-      <h4>Notes</h4>
+    <div className="mt-3 surface-card p-3">
+      <div className="flex items-center justify-between mb-2">
+        <h4 className="text-sm font-semibold">Notes</h4>
+      </div>
 
-      {notes.map((note) => (
-        <div key={note._id}>
-          <p>{note.content}</p>
-          <small>{new Date(note.createdAt).toLocaleString()}</small>
-        </div>
-      ))}
+      <div className="space-y-2">
+        {notes.map((note) => (
+          <div key={note._id} className="border rounded-lg p-2 bg-slate-50">
+            <p className="text-sm text-slate-800">{note.content}</p>
+            <small className="text-xs text-slate-500">{new Date(note.createdAt).toLocaleString()}</small>
+          </div>
+        ))}
+      </div>
 
-      <input
-        placeholder="Add note..."
-        value={content}
-        onChange={(e) => setContent(e.target.value)}
-      />
-
-      <button onClick={addNote}>Add Note</button>
+      <div className="mt-3 flex gap-2">
+        <input
+          className="input-ui"
+          placeholder="Add note..."
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
+        />
+        <button onClick={addNote} className="btn-primary">Add</button>
+      </div>
     </div>
   );
 }

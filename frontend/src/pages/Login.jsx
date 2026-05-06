@@ -38,71 +38,63 @@ export default function Login() {
   };
 
   return (
-    <div style={{ minHeight: "100vh", display: "grid", placeItems: "center", background: "#f3f4f6" }}>
-      <form
-        onSubmit={onSubmit}
-        style={{
-          width: "100%",
-          maxWidth: "380px",
-          background: "#ffffff",
-          border: "1px solid #e5e7eb",
-          borderRadius: "12px",
-          padding: "24px",
-          boxShadow: "0 10px 25px rgba(0, 0, 0, 0.08)",
-        }}
-      >
-        <h2 style={{ margin: "0 0 16px", fontSize: "24px" }}>Login</h2>
-
-        {error && (
-          <div
-            style={{
-              marginBottom: "12px",
-              padding: "10px",
-              borderRadius: "8px",
-              border: "1px solid #fecaca",
-              background: "#fef2f2",
-              color: "#991b1b",
-              fontSize: "14px",
-            }}
-          >
-            {error}
+    <div className="app-shell">
+      <div className="flex min-h-screen items-center justify-center px-4">
+        <div className="w-full max-w-md">
+          {/* Header */}
+          <div className="mb-8 text-center">
+            <h1 className="section-title mb-2">Welcome to CRM</h1>
+            <p className="text-slate-500">Manage your leads and grow your business</p>
           </div>
-        )}
 
-        <label style={{ display: "block", marginBottom: "6px", fontWeight: 600 }}>Email</label>
-        <input
-          value={email}
-          placeholder="Enter your email"
-          onChange={(e) => setEmail(e.target.value)}
-          style={{ width: "100%", padding: "10px", marginBottom: "12px", border: "1px solid #d1d5db", borderRadius: "8px" }}
-        />
+          {/* Card */}
+          <div className="surface-card p-8">
+            {error && (
+              <div className="mb-6 rounded-lg border-l-4 border-rose-500 bg-rose-50 p-4">
+                <p className="text-sm font-medium text-rose-800">{error}</p>
+              </div>
+            )}
 
-        <label style={{ display: "block", marginBottom: "6px", fontWeight: 600 }}>Password</label>
-        <input
-          value={password}
-          placeholder="Enter your password"
-          type="password"
-          onChange={(e) => setPassword(e.target.value)}
-          style={{ width: "100%", padding: "10px", marginBottom: "16px", border: "1px solid #d1d5db", borderRadius: "8px" }}
-        />
+            <form onSubmit={onSubmit} className="space-y-5">
+              <div>
+                <label className="block text-sm font-semibold text-slate-700 mb-2">Email Address</label>
+                <input
+                  className="input-ui"
+                  type="email"
+                  value={email}
+                  placeholder="you@example.com"
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </div>
 
-        <button
-          type="submit"
-          disabled={isLoading}
-          style={{
-            width: "100%",
-            padding: "10px",
-            border: "none",
-            borderRadius: "8px",
-            background: isLoading ? "#93c5fd" : "#2563eb",
-            color: "#ffffff",
-            cursor: isLoading ? "not-allowed" : "pointer",
-            fontWeight: 600,
-          }}
-        >
-          {isLoading ? "Logging in..." : "Login"}
-        </button>
-      </form>
+              <div>
+                <label className="block text-sm font-semibold text-slate-700 mb-2">Password</label>
+                <input
+                  className="input-ui"
+                  type="password"
+                  value={password}
+                  placeholder="••••••••"
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+              </div>
+
+              <button type="submit" disabled={isLoading} className="btn-primary w-full py-3 text-base">
+                {isLoading ? "Signing in..." : "Sign In"}
+              </button>
+            </form>
+
+            <div className="divider my-6"></div>
+
+            <button
+              type="button"
+              onClick={() => { setEmail('admin@example.com'); setPassword('password123'); }}
+              className="w-full text-center text-xs text-slate-500 hover:text-slate-700 transition"
+            >
+              Demo credentials pre-filled ✓
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

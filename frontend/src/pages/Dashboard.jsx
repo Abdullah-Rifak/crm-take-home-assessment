@@ -22,82 +22,78 @@ export default function Dashboard() {
 
   if (error) {
     return (
-      <div style={{ padding: "24px" }}>
-        <h2>Dashboard</h2>
-        <p style={{ color: "#b91c1c" }}>{error}</p>
-        <button onClick={logout}>Logout</button>
+      <div className="page-container">
+        <div className="surface-card p-4">
+          <h2 className="text-lg font-semibold">Dashboard</h2>
+          <p className="text-rose-600 mt-2">{error}</p>
+          <button onClick={logout} className="btn-ghost mt-3">Logout</button>
+        </div>
       </div>
     );
   }
 
   if (!data) {
-    return <div style={{ padding: "24px" }}>Loading dashboard...</div>;
+    return <div className="page-container">Loading dashboard...</div>;
   }
 
   return (
-    <div style={{ padding: "24px", background: "#f9fafb", minHeight: "100vh" }}>
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          marginBottom: "20px",
-          gap: "12px",
-          flexWrap: "wrap",
-        }}
-      >
-        <h2 style={{ margin: 0 }}>Dashboard</h2>
-        <div style={{ display: "flex", gap: "10px" }}>
-          <a
-            href="/leads"
-            style={{
-              display: "inline-block",
-              padding: "8px 12px",
-              borderRadius: "8px",
-              background: "#2563eb",
-              color: "white",
-              textDecoration: "none",
-              fontWeight: 600,
-            }}
-          >
-            Go to Leads
-          </a>
-          <button
-            onClick={logout}
-            style={{
-              padding: "8px 12px",
-              borderRadius: "8px",
-              border: "1px solid #d1d5db",
-              background: "white",
-              cursor: "pointer",
-              fontWeight: 600,
-            }}
-          >
-            Logout
-          </button>
-        </div>
-      </div>
+    <div className="app-shell">
+      <div className="page-container">
+        {/* Header */}
+        <div className="mb-10 flex items-center justify-between gap-4">
+          <div>
+            <h1 className="section-title">Dashboard</h1>
+            <p className="section-subtitle mt-1">Welcome back! Here's your CRM overview.</p>
+          </div>
 
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
-          gap: "12px",
-        }}
-      >
-        <div style={{ background: "white", padding: "16px", borderRadius: "10px", border: "1px solid #e5e7eb" }}>
-          <p style={{ margin: 0, color: "#6b7280" }}>Total Leads</p>
-          <h3 style={{ margin: "8px 0 0" }}>{data.totalLeads}</h3>
+          <div className="flex gap-3">
+            <a href="/leads" className="btn-primary">Go to Leads</a>
+            <button onClick={logout} className="btn-ghost">Logout</button>
+          </div>
         </div>
 
-        <div style={{ background: "white", padding: "16px", borderRadius: "10px", border: "1px solid #e5e7eb" }}>
-          <p style={{ margin: 0, color: "#6b7280" }}>Won</p>
-          <h3 style={{ margin: "8px 0 0", color: "#047857" }}>{data.wonLeads}</h3>
+        {/* Metrics Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="metric-card">
+            <p className="metric-label">Total Leads</p>
+            <p className="metric-value">{data.totalLeads}</p>
+          </div>
+
+          <div className="metric-card">
+            <p className="metric-label">New Leads</p>
+            <p className="metric-value">{data.newLeads}</p>
+          </div>
+
+          <div className="metric-card">
+            <p className="metric-label">Qualified</p>
+            <p className="metric-value">{data.qualifiedLeads}</p>
+          </div>
+
+          <div className="metric-card">
+            <p className="metric-label">Won Deals</p>
+            <p className="metric-value text-emerald-600">{data.wonLeads}</p>
+          </div>
         </div>
 
-        <div style={{ background: "white", padding: "16px", borderRadius: "10px", border: "1px solid #e5e7eb" }}>
-          <p style={{ margin: 0, color: "#6b7280" }}>Lost</p>
-          <h3 style={{ margin: "8px 0 0", color: "#b91c1c" }}>{data.lostLeads}</h3>
+        {/* Secondary Metrics */}
+        <div className="mt-10">
+          <h2 className="text-lg font-bold text-slate-900 mb-4">Deal Value Summary</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="metric-card">
+              <p className="metric-label">Total Estimated Value</p>
+              <p className="metric-value">${Number(data.totalEstimatedValue || 0).toLocaleString()}</p>
+            </div>
+
+            <div className="metric-card">
+              <p className="metric-label">Won Value</p>
+              <p className="metric-value text-emerald-600">${Number(data.totalWonValue || 0).toLocaleString()}</p>
+            </div>
+
+            <div className="metric-card">
+              <p className="metric-label">Lost Leads</p>
+              <p className="metric-value text-rose-600">{data.lostLeads}</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
