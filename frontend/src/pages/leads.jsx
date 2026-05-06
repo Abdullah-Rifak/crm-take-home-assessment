@@ -108,8 +108,8 @@ export default function Leads() {
             <p>Status: {lead.status}</p>
             <p>Value: {lead.dealValue}</p>
 
-            <button onClick={() => setSelectedLeadId(lead._id)}>
-              View Notes
+            <button onClick={() => setSelectedLeadId(selectedLeadId === lead._id ? null : lead._id)}>
+              {selectedLeadId === lead._id ? "Hide Notes" : "View Notes"}
             </button>
 
             <button onClick={() => deleteLead(lead._id)}>
@@ -130,6 +130,10 @@ export default function Leads() {
             >
               Edit
             </button>
+
+            {selectedLeadId === lead._id && (
+              <Notes leadId={lead._id} />
+            )}
           </div>
         ))}
       </div>
@@ -190,9 +194,6 @@ export default function Leads() {
       <button onClick={editingId ? updateLead : createLead}>
         {editingId ? "Update Lead" : "Add Lead"}
       </button>
-      {selectedLeadId && (
-        <Notes leadId={selectedLeadId} />
-      )}
     </div>
   );
 }
