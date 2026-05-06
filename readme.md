@@ -1,67 +1,60 @@
 # CRM Lead Management System
 
-Full-stack CRM application built for intern take-home assessment.
+Full-stack CRM application built for an intern take-home assessment.
 
-## Project Overview
+## Current Status
 
-This project is a simple CRM for a small sales team. It supports login, lead lifecycle management, lead notes, dashboard metrics, and search/filtering.
+The app is functional end to end and now includes a more polished Tailwind UI, inline form validation, lead pagination, lead notes, search and filters, and dashboard metrics. The frontend and backend both build successfully.
 
-## Tech Stack
+## What Is Implemented
 
-- Frontend: React + Vite
-- Backend: NestJS (Node.js)
-- Database: MongoDB (Mongoose)
-- Auth: JWT-based authentication
-
-## Features Implemented
-
-- Authentication with test user credentials
+- Authentication with a test user account
 - Protected CRM routes using JWT auth guard
-- Lead CRUD (create, read, update, delete)
-- Lead status updates (New, Contacted, Qualified, Proposal Sent, Won, Lost)
-- Lead details fields:
-	- Lead Name
-	- Company Name
-	- Email
-	- Phone Number
-	- Lead Source
-	- Assigned Salesperson
-	- Status
-	- Estimated Deal Value
-	- Created Date
-	- Last Updated Date
-- Lead notes per lead:
-	- Note Content
-	- Created By
-	- Created Date
-- Dashboard stats:
-	- Total Leads
-	- New Leads
-	- Qualified Leads
-	- Won Leads
-	- Lost Leads
-	- Total Estimated Deal Value
-	- Total Value of Won Deals
-- Search and filtering for lead list:
-	- Search by lead name/company/email
-	- Filter by status
-	- Filter by lead source
-	- Filter by assigned salesperson
+- Lead CRUD operations
+- Lead notes per lead record
+- Dashboard metrics for pipeline and deal value
+- Search and filtering by name, company, email, status, source, and assigned salesperson
+- Tailwind-based UI across login, dashboard, leads, and notes
+- Inline form validation for login and lead creation/editing
+- Client-side pagination on the leads page with 2 leads per page
+
+## Lead Fields
+
+- Lead Name
+- Company Name
+- Email
+- Phone Number
+- Lead Source
+- Assigned Salesperson
+- Status
+- Estimated Deal Value
+- Created Date
+- Last Updated Date
+
+## Dashboard Metrics
+
+- Total Leads
+- New Leads
+- Qualified Leads
+- Won Leads
+- Lost Leads
+- Total Estimated Deal Value
+- Total Value of Won Deals
 
 ## Repository Structure
 
-- `frontend/` React app
+- `frontend/` React + Vite app
 - `backend/` NestJS API
 
 ## How To Run Locally
 
-### 1) Prerequisites
+### Prerequisites
 
 - Node.js 18+
 - npm 9+
 - MongoDB running locally
 
-### 2) Start Backend
+### Backend
 
 ```bash
 cd backend
@@ -71,7 +64,7 @@ npm run start
 
 Backend runs at `http://localhost:3000`.
 
-### 3) Start Frontend
+### Frontend
 
 ```bash
 cd frontend
@@ -79,49 +72,24 @@ npm install
 npm run dev
 ```
 
-Frontend runs at `http://localhost:5173`.
+Frontend usually runs at `http://localhost:5173`. If that port is busy, Vite may pick another port such as `5174`.
 
-## Environment Variables
+## Environment
 
-Current setup uses defaults in code:
+Current defaults in code:
 
 - MongoDB URI: `mongodb://localhost:27017/crm`
-- Backend Port: `3000`
-- Frontend API Base URL: `http://localhost:3000`
-
-If needed, these can be moved to `.env` files.
+- Backend port: `3000`
+- Frontend API base URL: `http://localhost:3000`
 
 ## Test Login Credentials
 
 - Email: `admin@example.com`
 - Password: `password123`
 
-## Database Setup
 
-1. Install and run MongoDB locally.
-2. Ensure MongoDB listens on default port `27017`.
-3. App will use database `crm` automatically on first write.
 
-## Known Limitations
+## Submission Notes
 
-- Single hardcoded test user for authentication.
-- No pagination on leads list.
-- No role-based access control.
-- JWT secret is currently static in backend guard.
-
-## Reflection
-
-This project focused on delivering an end-to-end CRM workflow quickly while keeping code straightforward to explain in a demo. The largest learning areas were route protection, connecting frontend filters to backend query logic, and refining the dashboard to match business metrics. Given more time, the next improvements would be DTO validation, environment-based configuration, and stronger UX polish.
-
-## Demo Video
-
-Add your demo video link here:
-
-- `TODO: Paste Loom/YouTube/Drive link`
-
-## Deployed Application
-
-Add deployment link here (if available):
-
-- `TODO: Paste deployed app link or write "Not deployed"`
+For the current assessment, the important functional pieces are already covered: login, protected routes, lead management, notes, filters, dashboard stats, pagination, validation, and a consistent UI. The main remaining work is hardening and cleanup rather than missing core features.
 
