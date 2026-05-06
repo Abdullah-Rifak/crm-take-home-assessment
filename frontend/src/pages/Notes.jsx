@@ -11,6 +11,8 @@ export default function Notes({ leadId }) {
     setNotes(res.data);
   }, [leadId]);
 
+  // calling fetchNotes here updates local state after async fetch
+   
   useEffect(() => {
     fetchNotes();
   }, [fetchNotes]);
