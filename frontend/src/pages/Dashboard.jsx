@@ -13,6 +13,7 @@ export default function Dashboard() {
   return (
     <div>
       <h2>Dashboard</h2>
+      <a href="/leads">Go to Leads</a>
       <p>Total Leads: {data.totalLeads}</p>
       <p>Won: {data.wonLeads}</p>
       <p>Lost: {data.lostLeads}</p>
