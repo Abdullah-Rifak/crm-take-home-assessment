@@ -1,18 +1,19 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import api from "../services/api";
 
 export default function Notes({ leadId }) {
   const [notes, setNotes] = useState([]);
   const [content, setContent] = useState("");
 
-  async function fetchNotes() {
+  const fetchNotes = useCallback(async () => {
+    if (!leadId) return;
     const res = await api.get(`/notes/${leadId}`);
     setNotes(res.data);
-  }
+  }, [leadId]);
 
   useEffect(() => {
-    if (leadId) fetchNotes();
-  }, [leadId]);
+    fetchNotes();
+  }, [fetchNotes]);
 
   const addNote = async () => {
     if (!content) return;
