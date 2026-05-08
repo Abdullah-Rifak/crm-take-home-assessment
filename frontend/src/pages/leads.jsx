@@ -383,7 +383,7 @@ export default function Leads() {
                   value={form.leadName}
                   onChange={(e) => setForm({ ...form, leadName: e.target.value })}
                 />
-                {formErrors.leadName && <p className="-mt-2 text-xs text-rose-600">{formErrors.leadName}</p>}
+                {formErrors.leadName && <p className="-mt-2 text-xs text-rose-600 dark:text-rose-400">{formErrors.leadName}</p>}
 
                 <input
                   className="input-ui"
@@ -391,7 +391,7 @@ export default function Leads() {
                   value={form.companyName}
                   onChange={(e) => setForm({ ...form, companyName: e.target.value })}
                 />
-                {formErrors.companyName && <p className="-mt-2 text-xs text-rose-600">{formErrors.companyName}</p>}
+                {formErrors.companyName && <p className="-mt-2 text-xs text-rose-600 dark:text-rose-400">{formErrors.companyName}</p>}
 
                 <input
                   className="input-ui"
@@ -399,7 +399,7 @@ export default function Leads() {
                   value={form.email}
                   onChange={(e) => setForm({ ...form, email: e.target.value })}
                 />
-                {formErrors.email && <p className="-mt-2 text-xs text-rose-600">{formErrors.email}</p>}
+                {formErrors.email && <p className="-mt-2 text-xs text-rose-600 dark:text-rose-400">{formErrors.email}</p>}
 
                 <input
                   className="input-ui"
@@ -407,7 +407,7 @@ export default function Leads() {
                   value={form.phone}
                   onChange={(e) => setForm({ ...form, phone: e.target.value })}
                 />
-                {formErrors.phone && <p className="-mt-2 text-xs text-rose-600">{formErrors.phone}</p>}
+                {formErrors.phone && <p className="-mt-2 text-xs text-rose-600 dark:text-rose-400">{formErrors.phone}</p>}
 
                 <select
                   className="input-ui"
@@ -420,7 +420,7 @@ export default function Leads() {
                   <option>Cold Email</option>
                   <option>Event</option>
                 </select>
-                {formErrors.source && <p className="-mt-2 text-xs text-rose-600">{formErrors.source}</p>}
+                {formErrors.source && <p className="-mt-2 text-xs text-rose-600 dark:text-rose-400">{formErrors.source}</p>}
 
                 <input
                   className="input-ui"
@@ -428,7 +428,7 @@ export default function Leads() {
                   value={form.assignedTo}
                   onChange={(e) => setForm({ ...form, assignedTo: e.target.value })}
                 />
-                {formErrors.assignedTo && <p className="-mt-2 text-xs text-rose-600">{formErrors.assignedTo}</p>}
+                {formErrors.assignedTo && <p className="-mt-2 text-xs text-rose-600 dark:text-rose-400">{formErrors.assignedTo}</p>}
 
                 <input
                   className="input-ui"
@@ -437,7 +437,7 @@ export default function Leads() {
                   value={form.dealValue}
                   onChange={(e) => setForm({ ...form, dealValue: Number(e.target.value) })}
                 />
-                {formErrors.dealValue && <p className="-mt-2 text-xs text-rose-600">{formErrors.dealValue}</p>}
+                {formErrors.dealValue && <p className="-mt-2 text-xs text-rose-600 dark:text-rose-400">{formErrors.dealValue}</p>}
 
                 <select
                   className="input-ui"
@@ -451,7 +451,7 @@ export default function Leads() {
                   <option>Won</option>
                   <option>Lost</option>
                 </select>
-                {formErrors.status && <p className="-mt-2 text-xs text-rose-600">{formErrors.status}</p>}
+                {formErrors.status && <p className="-mt-2 text-xs text-rose-600 dark:text-rose-400">{formErrors.status}</p>}
 
                 <button
                   className="btn-primary w-full py-3"
