@@ -22,8 +22,14 @@ export class JwtAuthGuard implements CanActivate {
       throw new UnauthorizedException('Invalid token format');
     }
 
+    const jwtSecret = process.env.JWT_SECRET;
+
+    if (!jwtSecret) {
+      throw new UnauthorizedException('JWT secret is not configured');
+    }
+
     try {
-      jwt.verify(token, process.env.JWT_SECRET || 'secretKey');
+      jwt.verify(token, jwtSecret);
       return true;
     } catch {
       throw new UnauthorizedException('Invalid token');
