@@ -190,7 +190,7 @@ Overall, building this end-to-end — auth, database, API, and a polished React 
 
 ## Demo Video
 
-> *(Add your Loom or YouTube link here before submitting)*
+> *[Demo video](https://drive.google.com/file/d/1DJevYxnQ31RXDyTLW6bIMaMCSh9DYsZa/view?usp=sharing)*
 
 ---
 
