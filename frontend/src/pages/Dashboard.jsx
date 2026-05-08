@@ -25,7 +25,7 @@ export default function Dashboard() {
       <div className="page-container">
         <div className="surface-card p-4">
           <h2 className="text-lg font-semibold">Dashboard</h2>
-          <p className="text-rose-600 mt-2">{error}</p>
+          <p className="text-rose-600 dark:text-rose-400 mt-2">{error}</p>
           <button onClick={logout} className="btn-ghost mt-3">Logout</button>
         </div>
       </div>
@@ -33,7 +33,7 @@ export default function Dashboard() {
   }
 
   if (!data) {
-    return <div className="page-container">Loading dashboard...</div>;
+    return <div className="page-container text-slate-900 dark:text-slate-100">Loading dashboard...</div>;
   }
 
   return (
@@ -71,13 +71,13 @@ export default function Dashboard() {
 
           <div className="metric-card">
             <p className="metric-label">Won Deals</p>
-            <p className="metric-value text-emerald-600">{data.wonLeads}</p>
+            <p className="metric-value text-emerald-600 dark:text-emerald-400">{data.wonLeads}</p>
           </div>
         </div>
 
         {/* Secondary Metrics */}
         <div className="mt-10">
-          <h2 className="text-lg font-bold text-slate-900 mb-4">Deal Value Summary</h2>
+          <h2 className="text-lg font-bold text-slate-900 dark:text-slate-100 mb-4">Deal Value Summary</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="metric-card">
               <p className="metric-label">Total Estimated Value</p>
@@ -86,12 +86,12 @@ export default function Dashboard() {
 
             <div className="metric-card">
               <p className="metric-label">Won Value</p>
-              <p className="metric-value text-emerald-600">${Number(data.totalWonValue || 0).toLocaleString()}</p>
+              <p className="metric-value text-emerald-600 dark:text-emerald-400">${Number(data.totalWonValue || 0).toLocaleString()}</p>
             </div>
 
             <div className="metric-card">
               <p className="metric-label">Lost Leads</p>
-              <p className="metric-value text-rose-600">{data.lostLeads}</p>
+              <p className="metric-value text-rose-600 dark:text-rose-400">{data.lostLeads}</p>
             </div>
           </div>
         </div>

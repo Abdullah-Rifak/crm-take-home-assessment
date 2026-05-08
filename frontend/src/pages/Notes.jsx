@@ -35,9 +35,9 @@ export default function Notes({ leadId }) {
 
       <div className="space-y-2">
         {notes.map((note) => (
-          <div key={note._id} className="border rounded-lg p-2 bg-slate-50">
-            <p className="text-sm text-slate-800">{note.content}</p>
-            <small className="text-xs text-slate-500">{new Date(note.createdAt).toLocaleString()}</small>
+          <div key={note._id} className="border border-slate-200 dark:border-slate-700 rounded-lg p-2 bg-slate-50 dark:bg-slate-800">
+            <p className="text-sm text-slate-800 dark:text-slate-200">{note.content}</p>
+            <small className="text-xs text-slate-500 dark:text-slate-400">{new Date(note.createdAt).toLocaleString()}</small>
           </div>
         ))}
       </div>

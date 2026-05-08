@@ -57,20 +57,20 @@ export default function Login() {
           {/* Header */}
           <div className="mb-8 text-center">
             <h1 className="section-title mb-2">Welcome to CRM</h1>
-            <p className="text-slate-500">Manage your leads and grow your business</p>
+            <p className="text-slate-500 dark:text-slate-400">Manage your leads and grow your business</p>
           </div>
 
           {/* Card */}
           <div className="surface-card p-8">
             {error && (
-              <div className="mb-6 rounded-lg border-l-4 border-rose-500 bg-rose-50 p-4">
-                <p className="text-sm font-medium text-rose-800">{error}</p>
+              <div className="mb-6 rounded-lg border-l-4 border-rose-500 bg-rose-50 dark:bg-rose-900/30 p-4">
+                <p className="text-sm font-medium text-rose-800 dark:text-rose-200">{error}</p>
               </div>
             )}
 
             <form onSubmit={onSubmit} className="space-y-5">
               <div>
-                <label className="block text-sm font-semibold text-slate-700 mb-2">Email Address</label>
+                <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Email Address</label>
                 <input
                   className="input-ui"
                   type="email"
@@ -81,7 +81,7 @@ export default function Login() {
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-slate-700 mb-2">Password</label>
+                <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Password</label>
                 <input
                   className="input-ui"
                   type="password"
@@ -101,7 +101,7 @@ export default function Login() {
             <button
               type="button"
               onClick={() => { setEmail('admin@example.com'); setPassword('password123'); }}
-              className="w-full text-center text-xs text-slate-500 hover:text-slate-700 transition"
+              className="w-full text-center text-xs text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300 transition"
             >
               Demo credentials pre-filled ✓
             </button>

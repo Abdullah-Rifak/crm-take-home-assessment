@@ -184,7 +184,7 @@ export default function Leads() {
           <div>
             <p className="section-subtitle">Sales Workspace</p>
             <h1 className="section-title">Lead Pipeline</h1>
-            <p className="text-slate-500 mt-1">Track outreach, qualify opportunities, and close faster.</p>
+            <p className="text-slate-500 dark:text-slate-400 mt-1">Track outreach, qualify opportunities, and close faster.</p>
           </div>
           <div className="inline-flex rounded-full bg-gradient-to-r from-blue-600 to-blue-700 px-6 py-3 font-bold text-white shadow-lg">
             {total} Leads
@@ -192,7 +192,7 @@ export default function Leads() {
         </div>
 
         {/* Filters */}
-        <div className="mb-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 rounded-2xl border border-slate-200 bg-white/70 p-4 backdrop-blur-sm shadow-md">
+        <div className="mb-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 rounded-2xl border border-slate-200 dark:border-slate-700 bg-white/70 dark:bg-slate-800/70 p-4 backdrop-blur-sm shadow-md">
           <input
             className="input-ui"
             placeholder="Search name, company, email"
@@ -245,8 +245,8 @@ export default function Leads() {
           {/* Leads List */}
           <div className="lg:col-span-2 space-y-4">
             {paginatedLeads.length === 0 ? (
-              <div className="rounded-xl border-2 border-dashed border-slate-300 p-8 text-center">
-                <p className="text-slate-500">No leads found for current filters.</p>
+              <div className="rounded-xl border-2 border-dashed border-slate-300 dark:border-slate-600 p-8 text-center">
+                <p className="text-slate-500 dark:text-slate-400">No leads found for current filters.</p>
               </div>
             ) : (
               paginatedLeads.map((lead) => (
@@ -254,8 +254,8 @@ export default function Leads() {
                   {/* Card Header */}
                   <div className="flex items-start justify-between gap-4 mb-4">
                     <div className="flex-1">
-                      <h3 className="text-xl font-bold text-slate-900">{lead.leadName}</h3>
-                      <p className="text-sm text-slate-600 mt-1">{lead.companyName || "No company"}</p>
+                      <h3 className="text-xl font-bold text-slate-900 dark:text-slate-100">{lead.leadName}</h3>
+                      <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">{lead.companyName || "No company"}</p>
                     </div>
                     <span className={`status-pill ${getStatusClass(lead.status)}`}>{lead.status}</span>
                   </div>
@@ -266,28 +266,28 @@ export default function Leads() {
                   {/* Lead Details Grid */}
                   <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-5 text-sm">
                     <div>
-                      <p className="text-slate-500 font-medium">Email</p>
-                      <p className="text-slate-800 mt-1">{lead.email || "-"}</p>
+                      <p className="text-slate-500 dark:text-slate-400 font-medium">Email</p>
+                      <p className="text-slate-800 dark:text-slate-200 mt-1">{lead.email || "-"}</p>
                     </div>
                     <div>
-                      <p className="text-slate-500 font-medium">Phone</p>
-                      <p className="text-slate-800 mt-1">{lead.phone || "-"}</p>
+                      <p className="text-slate-500 dark:text-slate-400 font-medium">Phone</p>
+                      <p className="text-slate-800 dark:text-slate-200 mt-1">{lead.phone || "-"}</p>
                     </div>
                     <div>
-                      <p className="text-slate-500 font-medium">Source</p>
-                      <p className="text-slate-800 mt-1">{lead.source || "-"}</p>
+                      <p className="text-slate-500 dark:text-slate-400 font-medium">Source</p>
+                      <p className="text-slate-800 dark:text-slate-200 mt-1">{lead.source || "-"}</p>
                     </div>
                     <div>
-                      <p className="text-slate-500 font-medium">Assigned</p>
-                      <p className="text-slate-800 mt-1">{lead.assignedTo || "-"}</p>
+                      <p className="text-slate-500 dark:text-slate-400 font-medium">Assigned</p>
+                      <p className="text-slate-800 dark:text-slate-200 mt-1">{lead.assignedTo || "-"}</p>
                     </div>
                     <div>
-                      <p className="text-slate-500 font-medium">Deal Value</p>
-                      <p className="text-slate-800 mt-1">${Number(lead.dealValue || 0).toLocaleString()}</p>
+                      <p className="text-slate-500 dark:text-slate-400 font-medium">Deal Value</p>
+                      <p className="text-slate-800 dark:text-slate-200 mt-1">${Number(lead.dealValue || 0).toLocaleString()}</p>
                     </div>
                     <div>
-                      <p className="text-slate-500 font-medium">Created</p>
-                      <p className="text-slate-800 mt-1">{lead.createdAt ? new Date(lead.createdAt).toLocaleDateString() : "-"}</p>
+                      <p className="text-slate-500 dark:text-slate-400 font-medium">Created</p>
+                      <p className="text-slate-800 dark:text-slate-200 mt-1">{lead.createdAt ? new Date(lead.createdAt).toLocaleDateString() : "-"}</p>
                     </div>
                   </div>
 
@@ -334,8 +334,8 @@ export default function Leads() {
             )}
 
             {total > pageSize && (
-              <div className="flex items-center justify-between gap-3 rounded-2xl border border-slate-200 bg-white/80 px-4 py-3 shadow-sm">
-                <p className="text-sm text-slate-600">
+              <div className="flex items-center justify-between gap-3 rounded-2xl border border-slate-200 dark:border-slate-700 bg-white/80 dark:bg-slate-800/80 px-4 py-3 shadow-sm">
+                <p className="text-sm text-slate-600 dark:text-slate-400">
                   Page {currentPage} of {totalPages}
                 </p>
 
@@ -373,8 +373,8 @@ export default function Leads() {
           {/* Form Sidebar */}
           <aside className="sticky top-6 h-fit">
             <div className="surface-card-subtle p-6">
-              <h3 className="text-xl font-bold text-slate-900 mb-1">{editingId ? "Edit Lead" : "Add Lead"}</h3>
-              <p className="text-sm text-slate-600 mb-5">Capture the next opportunity in your pipeline.</p>
+              <h3 className="text-xl font-bold text-slate-900 dark:text-slate-100 mb-1">{editingId ? "Edit Lead" : "Add Lead"}</h3>
+              <p className="text-sm text-slate-600 dark:text-slate-400 mb-5">Capture the next opportunity in your pipeline.</p>
 
               <form className="space-y-3" onSubmit={handleFormSubmit} noValidate>
                 <input
