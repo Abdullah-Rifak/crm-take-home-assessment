@@ -23,7 +23,7 @@ export class JwtAuthGuard implements CanActivate {
     }
 
     try {
-      jwt.verify(token, 'secretKey');
+      jwt.verify(token, process.env.JWT_SECRET || 'secretKey');
       return true;
     } catch {
       throw new UnauthorizedException('Invalid token');

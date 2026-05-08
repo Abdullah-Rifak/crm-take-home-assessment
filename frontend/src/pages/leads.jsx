@@ -4,6 +4,7 @@ import Notes from "./Notes";
 
 export default function Leads() {
   const [leads, setLeads] = useState([]);
+  const [total, setTotal] = useState(0);
   const [selectedLeadId, setSelectedLeadId] = useState(null);
   const [formErrors, setFormErrors] = useState({});
   const [currentPage, setCurrentPage] = useState(1);
@@ -26,7 +27,7 @@ export default function Leads() {
   const [sourceFilter, setSourceFilter] = useState("");
   const [assignedToFilter, setAssignedToFilter] = useState("");
 
-  async function fetchLeads() {
+  async function fetchLeads(page = currentPage) {
     const params = new URLSearchParams();
 
     if (search) params.append("search", search);
@@ -34,21 +35,38 @@ export default function Leads() {
     if (sourceFilter) params.append("source", sourceFilter);
     if (assignedToFilter) params.append("assignedTo", assignedToFilter);
 
+    // server-side pagination params
+    params.append("page", String(page));
+    params.append("limit", String(pageSize));
+
     const query = params.toString();
-    const res = await api.get(query ? `/leads?${query}` : "/leads");
-    setLeads(res.data);
+    const res = await api.get(`/leads?${query}`);
+
+    // backend returns { items, total } when pagination params are provided
+    if (res.data && res.data.items) {
+      setLeads(res.data.items);
+      setTotal(res.data.total || 0);
+    } else if (Array.isArray(res.data)) {
+      setLeads(res.data);
+      setTotal(res.data.length);
+    } else {
+      setLeads([]);
+      setTotal(0);
+    }
   }
 
   useEffect(() => {
-    fetchLeads();
+    // reset to first page when filters/search change
+    setCurrentPage(1);
+    fetchLeads(1);
   }, [search, statusFilter, sourceFilter, assignedToFilter]);
 
   useEffect(() => {
-    const totalPages = Math.max(1, Math.ceil(leads.length / pageSize));
+    const totalPages = Math.max(1, Math.ceil(total / pageSize));
     if (currentPage > totalPages) {
       setCurrentPage(totalPages);
     }
-  }, [leads, currentPage]);
+  }, [total, currentPage]);
 
   const validateForm = () => {
     const errors = {};
@@ -138,9 +156,8 @@ export default function Leads() {
     setCurrentPage(1);
   };
 
-  const totalPages = Math.max(1, Math.ceil(leads.length / pageSize));
-  const startIndex = (currentPage - 1) * pageSize;
-  const paginatedLeads = leads.slice(startIndex, startIndex + pageSize);
+  const totalPages = Math.max(1, Math.ceil(total / pageSize));
+  const paginatedLeads = leads;
 
   const getStatusClass = (status) => {
     switch (status) {
@@ -170,7 +187,7 @@ export default function Leads() {
             <p className="text-slate-500 mt-1">Track outreach, qualify opportunities, and close faster.</p>
           </div>
           <div className="inline-flex rounded-full bg-gradient-to-r from-blue-600 to-blue-700 px-6 py-3 font-bold text-white shadow-lg">
-            {leads.length} Leads
+            {total} Leads
           </div>
         </div>
 
@@ -316,7 +333,7 @@ export default function Leads() {
               ))
             )}
 
-            {leads.length > pageSize && (
+            {total > pageSize && (
               <div className="flex items-center justify-between gap-3 rounded-2xl border border-slate-200 bg-white/80 px-4 py-3 shadow-sm">
                 <p className="text-sm text-slate-600">
                   Page {currentPage} of {totalPages}
@@ -327,7 +344,11 @@ export default function Leads() {
                     type="button"
                     className="btn-ghost disabled:opacity-50 disabled:cursor-not-allowed"
                     disabled={currentPage === 1}
-                    onClick={() => setCurrentPage((page) => Math.max(1, page - 1))}
+                    onClick={async () => {
+                      const next = Math.max(1, currentPage - 1);
+                      setCurrentPage(next);
+                      await fetchLeads(next);
+                    }}
                   >
                     Previous
                   </button>
@@ -336,7 +357,11 @@ export default function Leads() {
                     type="button"
                     className="btn-secondary disabled:opacity-50 disabled:cursor-not-allowed"
                     disabled={currentPage === totalPages}
-                    onClick={() => setCurrentPage((page) => Math.min(totalPages, page + 1))}
+                    onClick={async () => {
+                      const next = Math.min(totalPages, currentPage + 1);
+                      setCurrentPage(next);
+                      await fetchLeads(next);
+                    }}
                   >
                     Next
                   </button>

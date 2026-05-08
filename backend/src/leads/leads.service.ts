@@ -13,11 +13,13 @@ export class LeadsService {
     return this.leadModel.create(data);
   }
 
-  findAll(query: {
+  async findAll(query: {
     status?: string;
     source?: string;
     assignedTo?: string;
     search?: string;
+    page?: string | number;
+    limit?: string | number;
   }) {
     const filter: Record<string, any> = {};
     //Filter
@@ -33,7 +35,23 @@ export class LeadsService {
         { email: { $regex: query.search, $options: 'i' } },
       ];
     }
-    return this.leadModel.find(filter).sort({ createdAt: -1 });
+    // Optional server-side pagination
+    const page = query.page ? Number(query.page) : undefined;
+    const limit = query.limit ? Number(query.limit) : undefined;
+
+    // if page+limit provided, return { items, total }
+    if (page && limit && Number.isFinite(page) && Number.isFinite(limit)) {
+      const skip = (Math.max(1, page) - 1) * Math.max(1, limit);
+      const [items, total] = await Promise.all([
+        this.leadModel.find(filter).sort({ createdAt: -1 }).skip(skip).limit(Math.max(1, limit)).exec(),
+        this.leadModel.countDocuments(filter),
+      ]);
+
+      return { items, total };
+    }
+
+    // otherwise return full list
+    return this.leadModel.find(filter).sort({ createdAt: -1 }).exec();
   }
 
   findOne(id: string) {
