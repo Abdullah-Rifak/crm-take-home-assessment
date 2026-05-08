@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import Leads from "./pages/leads";
-import ProtectedRoute from "./componenets/protectedRoute.jsx";
+import ProtectedRoute from "./components/protectedRoute.jsx";
 
 function App() {
   useEffect(() => {
