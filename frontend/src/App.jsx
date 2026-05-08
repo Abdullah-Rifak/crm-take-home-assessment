@@ -7,7 +7,6 @@ import ProtectedRoute from "./components/protectedRoute.jsx";
 
 function App() {
   useEffect(() => {
-    // Enable dark mode by default
     document.documentElement.classList.add("dark");
   }, []);
 

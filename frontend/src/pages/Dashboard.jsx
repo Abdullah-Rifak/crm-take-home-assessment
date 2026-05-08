@@ -39,7 +39,6 @@ export default function Dashboard() {
   return (
     <div className="app-shell">
       <div className="page-container">
-        {/* Header */}
         <div className="mb-10 flex items-center justify-between gap-4">
           <div>
             <h1 className="section-title">Dashboard</h1>
@@ -52,7 +51,6 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* Metrics Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           <div className="metric-card">
             <p className="metric-label">Total Leads</p>
@@ -75,7 +73,6 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* Secondary Metrics */}
         <div className="mt-10">
           <h2 className="text-lg font-bold text-slate-900 dark:text-slate-100 mb-4">Deal Value Summary</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

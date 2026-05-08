@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import api from "../services/api";
 import Notes from "./Notes";
 
@@ -27,7 +27,10 @@ export default function Leads() {
   const [sourceFilter, setSourceFilter] = useState("");
   const [assignedToFilter, setAssignedToFilter] = useState("");
 
-  async function fetchLeads(page = currentPage) {
+  const totalPages = Math.max(1, Math.ceil(total / pageSize));
+  const activePage = Math.min(currentPage, totalPages);
+
+  const fetchLeads = useCallback(async (page = 1) => {
     const params = new URLSearchParams();
 
     if (search) params.append("search", search);
@@ -35,14 +38,12 @@ export default function Leads() {
     if (sourceFilter) params.append("source", sourceFilter);
     if (assignedToFilter) params.append("assignedTo", assignedToFilter);
 
-    // server-side pagination params
     params.append("page", String(page));
     params.append("limit", String(pageSize));
 
     const query = params.toString();
     const res = await api.get(`/leads?${query}`);
 
-    // backend returns { items, total } when pagination params are provided
     if (res.data && res.data.items) {
       setLeads(res.data.items);
       setTotal(res.data.total || 0);
@@ -53,20 +54,37 @@ export default function Leads() {
       setLeads([]);
       setTotal(0);
     }
-  }
+  }, [search, statusFilter, sourceFilter, assignedToFilter, pageSize]);
 
   useEffect(() => {
-    // reset to first page when filters/search change
-    setCurrentPage(1);
-    fetchLeads(1);
-  }, [search, statusFilter, sourceFilter, assignedToFilter]);
+    const loadLeads = async () => {
+      const params = new URLSearchParams();
 
-  useEffect(() => {
-    const totalPages = Math.max(1, Math.ceil(total / pageSize));
-    if (currentPage > totalPages) {
-      setCurrentPage(totalPages);
-    }
-  }, [total, currentPage]);
+      if (search) params.append("search", search);
+      if (statusFilter) params.append("status", statusFilter);
+      if (sourceFilter) params.append("source", sourceFilter);
+      if (assignedToFilter) params.append("assignedTo", assignedToFilter);
+
+      params.append("page", String(activePage));
+      params.append("limit", String(pageSize));
+
+      const query = params.toString();
+      const res = await api.get(`/leads?${query}`);
+
+      if (res.data && res.data.items) {
+        setLeads(res.data.items);
+        setTotal(res.data.total || 0);
+      } else if (Array.isArray(res.data)) {
+        setLeads(res.data);
+        setTotal(res.data.length);
+      } else {
+        setLeads([]);
+        setTotal(0);
+      }
+    };
+
+    loadLeads();
+  }, [activePage, search, statusFilter, sourceFilter, assignedToFilter, pageSize]);
 
   const validateForm = () => {
     const errors = {};
@@ -156,7 +174,6 @@ export default function Leads() {
     setCurrentPage(1);
   };
 
-  const totalPages = Math.max(1, Math.ceil(total / pageSize));
   const paginatedLeads = leads;
 
   const getStatusClass = (status) => {
@@ -179,7 +196,6 @@ export default function Leads() {
   return (
     <div className="app-shell">
       <div className="page-container">
-        {/* Header */}
         <div className="mb-8 flex items-center justify-between gap-4">
           <div>
             <p className="section-subtitle">Sales Workspace</p>
@@ -191,19 +207,24 @@ export default function Leads() {
           </div>
         </div>
 
-        {/* Filters */}
         <div className="mb-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 rounded-2xl border border-slate-200 dark:border-slate-700 bg-white/70 dark:bg-slate-800/70 p-4 backdrop-blur-sm shadow-md">
           <input
             className="input-ui"
             placeholder="Search name, company, email"
             value={search}
-            onChange={(e) => setSearch(e.target.value)}
+            onChange={(e) => {
+              setCurrentPage(1);
+              setSearch(e.target.value);
+            }}
           />
 
           <select
             className="input-ui"
             value={statusFilter}
-            onChange={(e) => setStatusFilter(e.target.value)}
+            onChange={(e) => {
+              setCurrentPage(1);
+              setStatusFilter(e.target.value);
+            }}
           >
             <option value="">All Status</option>
             <option>New</option>
@@ -217,7 +238,10 @@ export default function Leads() {
           <select
             className="input-ui"
             value={sourceFilter}
-            onChange={(e) => setSourceFilter(e.target.value)}
+            onChange={(e) => {
+              setCurrentPage(1);
+              setSourceFilter(e.target.value);
+            }}
           >
             <option value="">All Sources</option>
             <option>Website</option>
@@ -231,18 +255,19 @@ export default function Leads() {
             className="input-ui"
             placeholder="Assigned to..."
             value={assignedToFilter}
-            onChange={(e) => setAssignedToFilter(e.target.value)}
+            onChange={(e) => {
+              setCurrentPage(1);
+              setAssignedToFilter(e.target.value);
+            }}
           />
 
           <div className="flex gap-2">
-            <button className="btn-secondary flex-1" onClick={fetchLeads}>Apply</button>
+            <button className="btn-secondary flex-1" onClick={() => fetchLeads(activePage)}>Apply</button>
             <button className="btn-ghost flex-1" onClick={resetFilters}>Reset</button>
           </div>
         </div>
 
-        {/* Main Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
-          {/* Leads List */}
           <div className="lg:col-span-2 space-y-4">
             {paginatedLeads.length === 0 ? (
               <div className="rounded-xl border-2 border-dashed border-slate-300 dark:border-slate-600 p-8 text-center">
@@ -251,7 +276,6 @@ export default function Leads() {
             ) : (
               paginatedLeads.map((lead) => (
                 <article key={lead._id} className="surface-card p-6 hover:shadow-2xl transition-shadow">
-                  {/* Card Header */}
                   <div className="flex items-start justify-between gap-4 mb-4">
                     <div className="flex-1">
                       <h3 className="text-xl font-bold text-slate-900 dark:text-slate-100">{lead.leadName}</h3>
@@ -260,10 +284,8 @@ export default function Leads() {
                     <span className={`status-pill ${getStatusClass(lead.status)}`}>{lead.status}</span>
                   </div>
 
-                  {/* Divider */}
                   <div className="divider mb-4"></div>
 
-                  {/* Lead Details Grid */}
                   <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-5 text-sm">
                     <div>
                       <p className="text-slate-500 dark:text-slate-400 font-medium">Email</p>
@@ -291,7 +313,6 @@ export default function Leads() {
                     </div>
                   </div>
 
-                  {/* Actions */}
                   <div className="flex gap-2 flex-wrap mb-4">
                     <button
                       onClick={() => setSelectedLeadId(selectedLeadId === lead._id ? null : lead._id)}
@@ -327,7 +348,6 @@ export default function Leads() {
                     </button>
                   </div>
 
-                  {/* Notes Section */}
                   {selectedLeadId === lead._id && <Notes leadId={lead._id} />}
                 </article>
               ))
@@ -336,16 +356,16 @@ export default function Leads() {
             {total > pageSize && (
               <div className="flex items-center justify-between gap-3 rounded-2xl border border-slate-200 dark:border-slate-700 bg-white/80 dark:bg-slate-800/80 px-4 py-3 shadow-sm">
                 <p className="text-sm text-slate-600 dark:text-slate-400">
-                  Page {currentPage} of {totalPages}
+                  Page {activePage} of {totalPages}
                 </p>
 
                 <div className="flex items-center gap-2">
                   <button
                     type="button"
                     className="btn-ghost disabled:opacity-50 disabled:cursor-not-allowed"
-                    disabled={currentPage === 1}
+                    disabled={activePage === 1}
                     onClick={async () => {
-                      const next = Math.max(1, currentPage - 1);
+                      const next = Math.max(1, activePage - 1);
                       setCurrentPage(next);
                       await fetchLeads(next);
                     }}
@@ -356,9 +376,9 @@ export default function Leads() {
                   <button
                     type="button"
                     className="btn-secondary disabled:opacity-50 disabled:cursor-not-allowed"
-                    disabled={currentPage === totalPages}
+                    disabled={activePage === totalPages}
                     onClick={async () => {
-                      const next = Math.min(totalPages, currentPage + 1);
+                      const next = Math.min(totalPages, activePage + 1);
                       setCurrentPage(next);
                       await fetchLeads(next);
                     }}
@@ -370,7 +390,6 @@ export default function Leads() {
             )}
           </div>
 
-          {/* Form Sidebar */}
           <aside className="sticky top-6 h-fit">
             <div className="surface-card-subtle p-6">
               <h3 className="text-xl font-bold text-slate-900 dark:text-slate-100 mb-1">{editingId ? "Edit Lead" : "Add Lead"}</h3>

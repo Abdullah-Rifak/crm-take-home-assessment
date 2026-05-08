@@ -54,13 +54,11 @@ export default function Login() {
     <div className="app-shell">
       <div className="flex min-h-screen items-center justify-center px-4">
         <div className="w-full max-w-md">
-          {/* Header */}
           <div className="mb-8 text-center">
             <h1 className="section-title mb-2">Welcome to CRM</h1>
             <p className="text-slate-500 dark:text-slate-400">Manage your leads and grow your business</p>
           </div>
 
-          {/* Card */}
           <div className="surface-card p-8">
             {error && (
               <div className="mb-6 rounded-lg border-l-4 border-rose-500 bg-rose-50 dark:bg-rose-900/30 p-4">
